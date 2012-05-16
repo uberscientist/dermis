@@ -18,9 +18,9 @@
 
 Dermis exists to provide an easy to use wrapper around routing and rendering. If you find yourself requesting data from the server then rendering it throughout your application dermis can help clean up your workflow.
 
-## Includes
+## Dependencies
 
-Dermis comes with Rooter (routing), RequireJS (AMD), and Jaded (Templating) baked in.
+Dermis comes with Rooter (routing) and RequireJS (AMD) baked in.
 
 ## Routing
 
