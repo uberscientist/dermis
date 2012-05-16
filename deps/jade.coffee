@@ -1,6 +1,11 @@
 define "jade", ->
   # Escape the given string of html.
-  escape = (html) -> String(html).replace(/&(?!\w+;)/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace /"/g, "&quot;"
+  escape = (html) -> 
+    String(html)
+      .replace(/&(?!\w+;)/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
 
   # Any template errors are passed to this
   rethrow = (err) -> throw new Error err

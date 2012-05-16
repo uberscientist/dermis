@@ -9,8 +9,8 @@
 <td>Sugar</td>
 </tr>
 <tr>
-<td>Node Version</td>
-<td>>= 0.4</td>
+<td>Size</td>
+<td>5.5K</td>
 </tr>
 </table>
 
@@ -20,7 +20,7 @@ Dermis exists to provide an easy to use wrapper around routing and rendering. If
 
 ## Includes
 
-Dermis itself is tiny but comes with great tools baked in. These include RequireJS, SockJS, Vein, jQuery, Jade, and more. A more diverse selection of builds will be available soon to help customize your stack - right now everything you need to get an app off the ground is included by default.
+Dermis comes with Rooter (routing), RequireJS (AMD), and Jaded (Templating) baked in.
 
 ## Routing
 
@@ -30,6 +30,7 @@ Passing a single route to dermis will automatically load routes/(base) and route
 require(["dermis"], function (dermis) {
   // This will load routes/test.js and templates/test.js
   dermis.route('/test/:id');
+  dermis.init();
 });
 ```
 
@@ -38,6 +39,7 @@ You can also pass functions as your second and third arguments.
 ```javascript
 require(["dermis"], function (dermis) {
   dermis.route('/test/:id', require('tasks/runtest'), require('tmpl/rendertest'));
+  dermis.init();
 });
 ```
 
