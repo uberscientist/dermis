@@ -1,6 +1,6 @@
 define "dermis", ["jade"], (jade) ->
   route = (url, service, view) ->
-    base = /\/(.*?)\//.exec(url)[1]
+    base = (if url is '/' then 'index' else /\/(.*?)\//.exec(url)[1])
     service ?= "routes/#{base}"
     view ?= "templates/#{base}"
     route = {}
