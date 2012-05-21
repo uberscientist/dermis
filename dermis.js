@@ -2220,8 +2220,8 @@ var requirejs, require, define;
   define("dermis", ["jade"], function(jade) {
     var route;
     route = function(url, service, view) {
-      var base;
-      base = (url === '/' ? 'index' : /\/(.*?)\//.exec(url)[1]);
+      var base, _ref, _ref1;
+      base = (url === '/' ? 'index' : ((_ref = /\/(.*)\//.exec(url)) != null ? _ref[1] : void 0) || ((_ref1 = /\/(.*)/.exec(url)) != null ? _ref1[1] : void 0));
       if (service == null) {
         service = "routes/" + base;
       }
