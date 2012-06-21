@@ -34,11 +34,11 @@ require(["dermis"], function (dermis) {
 });
 ```
 
-You can also pass functions as your second and third arguments.
+You can also specify the module/route modules for your second and third arguments.
 
 ```javascript
 require(["dermis"], function (dermis) {
-  dermis.route('/test/:id', require('tasks/runtest'), require('tmpl/rendertest'));
+  dermis.route('/test/:id', 'tasks/runtest', 'tmpl/rendertest');
   dermis.init();
 });
 ```
