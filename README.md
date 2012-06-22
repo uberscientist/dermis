@@ -20,7 +20,7 @@ Dermis exists to provide an easy to use wrapper around routing and rendering. If
 
 ## Dependencies
 
-Dermis comes with Rooter (routing) and RequireJS (AMD) baked in.
+Dermis comes with Rooter (routing), RequireJS (AMD), and jQuery (effects, selectors) baked in.
 
 ## Routing
 
@@ -34,7 +34,7 @@ require(["dermis"], function (dermis) {
 });
 ```
 
-You can also specify the module/route modules for your second and third arguments.
+You can optionally specify the action/template locations for your second and third arguments.
 
 ```javascript
 require(["dermis"], function (dermis) {
@@ -47,15 +47,15 @@ require(["dermis"], function (dermis) {
 
 #### routes/test.js
 
-Your route function will receive two arguments. The first argument is an object that contains the parameters from your route - the second argument is your template/render/view/secondary function.
+Your route function will receive two arguments. The first argument is an object that contains the parameters from your route - the second argument is your template function wrapped in a dermis view. dermis view functions can be chained.
 
 ```javascript
 define(function () {
-  return function (args, templ) {
-    $('#test').html(templ({
-      user: "choni"
-    }));
-  }
+  return function (args, view) {
+    view.target('#testi');
+    view.fadeIn();
+    view.render(args);
+  };
 });
 ```
 

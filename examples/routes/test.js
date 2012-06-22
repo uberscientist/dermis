@@ -1,5 +1,5 @@
 define(function () {
-  return function (_args, templ) {
-    document.getElementById("testi").innerHTML = templ(_args);
+  return function (args, view) {
+    view.target('#testi').fadeIn().render(args);
   };
 });
