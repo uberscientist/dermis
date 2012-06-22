@@ -11779,27 +11779,30 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   });
 
   define("dermis", ["jade", "dermis/View"], function(jade, View) {
-    var route;
-    route = function(url, service, view) {
-      var base, _ref, _ref1;
-      base = (url === '/' ? 'index' : ((_ref = /\/(.*?)\//.exec(url)) != null ? _ref[1] : void 0) || ((_ref1 = /\/(.*)/.exec(url)) != null ? _ref1[1] : void 0));
-      if (service == null) {
-        service = "routes/" + base;
-      }
-      if (view == null) {
-        view = "templates/" + base;
-      }
-      route = {};
-      return rooter.route(url, function(rtobj) {
-        return require([service, view], function(srv, tmpl) {
-          return srv(rtobj, new View(tmpl));
+    var dermis;
+    dermis = {
+      init: function() {
+        var args;
+        args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+        return rooter.init.apply(rooter, args);
+      },
+      route: function(url, service, view) {
+        var base, _ref, _ref1;
+        base = (url === '/' ? 'index' : ((_ref = /\/(.*?)\//.exec(url)) != null ? _ref[1] : void 0) || ((_ref1 = /\/(.*)/.exec(url)) != null ? _ref1[1] : void 0));
+        if (service == null) {
+          service = "routes/" + base;
+        }
+        if (view == null) {
+          view = "templates/" + base;
+        }
+        rooter.route(url, function(rtobj) {
+          return require([service, view], function(srv, tmpl) {
+            return srv(rtobj, new View(tmpl));
+          });
         });
-      });
+      }
     };
-    return {
-      init: rooter.init,
-      route: route
-    };
+    return dermis;
   });
 
 }).call(this);
