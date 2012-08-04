@@ -20,7 +20,7 @@ Dermis exists to provide an easy to use wrapper around routing and rendering. If
 
 ## Dependencies
 
-Dermis comes with Rooter (routing), RequireJS (AMD), and jQuery (effects, selectors) baked in.
+Dermis comes with Rooter (routing) and RequireJS (AMD) baked in.
 
 ## Routing
 

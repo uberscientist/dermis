@@ -1,7 +1,6 @@
-coffee -j dermis.js -c deps/jade.coffee src/EventEmitter.coffee src/View.coffee src/dermis.coffee
+coffee -j dermis.js -c src/dermis.coffee
 
 # Prepend deps
-cat deps/jquery.js | cat - dermis.js > /tmp/out && mv /tmp/out dermis.js
 cat deps/rooter.js | cat - dermis.js > /tmp/out && mv /tmp/out dermis.js
 cat deps/require.js | cat - dermis.js > /tmp/out && mv /tmp/out dermis.js
 
