@@ -52,9 +52,7 @@ Your route function will receive two arguments. The first argument is an object 
 ```javascript
 define(function () {
   return function (args, view) {
-    view.target('#testi');
-    view.fadeIn();
-    view.render(args);
+    $('#content').html(view(args));
   };
 });
 ```
