@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <title>Example page</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+      <script src="js/ext/runtime.js"></script>
+      <script src="js/ext/dermis.js"></script>
+      <script src="js/ext/jquery.js"></script>
+      <script src="js/ext/jquery.noty.js"></script>
+
+      <script>
+         require({
+           baseUrl: ".",
+           packages: [
+             { name: "templates", location: "templates"},
+             { name: "app", location: "js" },
+             { name: "routes", location: "js/routes" },
+             { name: "beforeFilters", location: "js/routes/beforeFilters" },
+             { name: "ext", location: "js/ext" }
+           ]
+         },[
+           'app/main'
+         ]);
+      </script>
+
+   </head>
+
+   <body>
+    <div id="content">
+      <p id="test">Test</p>
+      <a href="#/route/42">the right answer</a>
+      <a href="#/route/43">the wrong answer</a>
+      <a href="#/wrong">definately the wrong answer</a>
+    </div>
+   </body>
+</html>

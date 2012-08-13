@@ -1,0 +1,18 @@
+{
+  "name": "Test",
+  "version": "0.0.1",
+  "main": "start.coffee",
+  "dependencies": {
+    "coffee-script": "*",
+    "jade": "*",
+    "connect": "2.3.4"
+  },
+  "devDependencies": {
+    "node-log": "*",
+    "jaded": "0.0.6"
+  },
+  "subdomain": "test",
+  "scripts": {
+    "start": "start.coffee"
+  }
+}
