@@ -8,9 +8,18 @@ define "dermis", (jade, View) ->
       base = getBaseUrl url
       service ?= "routes/#{base}"
       view ?= "templates/#{base}"
-      rooter.route url, (rtobj) ->
+      setup = (rtobj) ->
         require [service, view], (srv,tmpl) ->
-          srv rtobj, tmpl
+          if typeof srv is 'function'
+            srv rtobj, tmpl
+          else
+            srv.setup rtobj, tmpl
+
+      teardown = (cb) ->
+        require [service], (srv) ->
+          srv.teardown(cb) unless typeof srv is 'function'
+
+      rooter.route url, setup, teardown
       return
 
     before: (urls, filters) ->

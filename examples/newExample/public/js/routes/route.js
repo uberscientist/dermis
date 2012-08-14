@@ -2,11 +2,17 @@
 (function() {
 
   define([], function() {
-    return function(args, templ) {
-      console.log("args", args);
-      return $('#content').html(templ({
-        input: args
-      }));
+    return {
+      setup: function(args, templ) {
+        console.log("args", args);
+        return $('#content').html(templ({
+          input: args
+        }));
+      },
+      teardown: function(cb) {
+        console.log("I'll miss you!");
+        return cb();
+      }
     };
   });
 

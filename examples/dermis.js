@@ -2043,19 +2043,24 @@ var requirejs, require, define;
     listen: function(fn) {
       return rooter.hash.listeners.push(fn);
     },
-    trigger: function(hash) {
-      var fn, _i, _len, _ref;
-      if (hash == null) {
-        hash = rooter.hash.value();
+    trigger: function(newHash) {
+      if (newHash == null) {
+        newHash = rooter.hash.value();
       }
-      if (hash === "") {
-        hash = "/";
+      if (newHash === "") {
+        newHash = "/";
       }
-      _ref = rooter.hash.listeners;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        fn = _ref[_i];
-        fn(hash);
-      }
+      return hash.pendingTeardown(function() {
+        var fn, _i, _len, _ref;
+        hash.pendingTeardown = function(cb) {
+          return cb();
+        };
+        _ref = rooter.hash.listeners;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          fn = _ref[_i];
+          fn(newHash);
+        }
+      });
     },
     value: function(newHash) {
       if (newHash) {
@@ -2105,6 +2110,9 @@ var requirejs, require, define;
 
   rooter = {
     init: function() {
+      rooter.hash.pendingTeardown = function(cb) {
+        return cb();
+      };
       rooter.hash.listen(rooter.test);
       if (rooter.hash.check) {
         return rooter.hash.check();
@@ -2112,14 +2120,15 @@ var requirejs, require, define;
       return rooter.hash.trigger();
     },
     routes: {},
-    route: function(expr, fn) {
+    route: function(expr, setup, teardown) {
       var pattern;
       pattern = "^" + expr + "$";
       pattern = pattern.replace(/([?=,\/])/g, '\\$1').replace(/:([\w\d]+)/g, '([^/]*)');
       rooter.routes[expr] = {
         paramNames: expr.match(/:([\w\d]+)/g),
         pattern: new RegExp(pattern),
-        fn: fn,
+        setup: setup,
+        teardown: teardown,
         beforeFilters: []
       };
     },
@@ -2139,12 +2148,12 @@ var requirejs, require, define;
       filters = destination.beforeFilters.slice(0);
       return runFilters(filters);
     },
-    test: function(hash) {
+    test: function(attemptedHash) {
       var args, destination, idx, matches, name, routeInput, url, _i, _len, _ref, _ref1;
       _ref = rooter.routes;
       for (url in _ref) {
         destination = _ref[url];
-        if (matches = destination.pattern.exec(hash)) {
+        if (matches = destination.pattern.exec(attemptedHash)) {
           routeInput = {};
           if (destination.paramNames) {
             args = matches.slice(1);
@@ -2156,7 +2165,8 @@ var requirejs, require, define;
           }
           rooter.runBeforeFilters(destination, routeInput, function(err) {
             if (!err) {
-              return destination.fn(routeInput);
+              hash.pendingTeardown = destination.teardown;
+              return destination.setup(routeInput);
             }
           });
         }
@@ -2204,7 +2214,7 @@ var requirejs, require, define;
         return rooter.init.apply(rooter, args);
       },
       route: function(url, service, view) {
-        var base;
+        var base, setup, teardown;
         base = getBaseUrl(url);
         if (service == null) {
           service = "routes/" + base;
@@ -2212,11 +2222,23 @@ var requirejs, require, define;
         if (view == null) {
           view = "templates/" + base;
         }
-        rooter.route(url, function(rtobj) {
+        setup = function(rtobj) {
           return require([service, view], function(srv, tmpl) {
-            return srv(rtobj, tmpl);
+            if (typeof srv === 'function') {
+              return srv(rtobj, tmpl);
+            } else {
+              return srv.setup(rtobj, tmpl);
+            }
           });
-        });
+        };
+        teardown = function(cb) {
+          return require([service], function(srv) {
+            if (typeof srv !== 'function') {
+              return srv.teardown(cb);
+            }
+          });
+        };
+        rooter.route(url, setup, teardown);
       },
       before: function(urls, filters) {
         var filter, url, _i, _len, _results;
