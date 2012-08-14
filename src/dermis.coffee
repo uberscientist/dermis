@@ -17,7 +17,11 @@ define "dermis", (jade, View) ->
 
       teardown = (cb) ->
         require [service], (srv) ->
-          srv.teardown(cb) unless typeof srv is 'function'
+          if typeof srv is 'function'
+            #i.e. service has no teardown
+            cb()
+          else
+            srv.teardown(cb)
 
       rooter.route url, setup, teardown
       return
