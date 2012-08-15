@@ -9,6 +9,7 @@ define "dermis", (jade, View) ->
       service ?= "routes/#{base}"
       view ?= "templates/#{base}"
       setup = (rtobj) ->
+        console.log "calling route #{base}"
         require [service, view], (srv,tmpl) ->
           if typeof srv is 'function'
             srv rtobj, tmpl
