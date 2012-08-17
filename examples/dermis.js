@@ -2111,7 +2111,8 @@ var requirejs, require, define;
     route: function(expr, setup, teardown) {
       var pattern;
       pattern = "^" + expr + "$";
-      pattern = pattern.replace(/([?=,\/])/g, '\\$1').replace(/:([\w\d]+)/g, '([^/]*)').replace(/(\?)\$/g, '\?(.*)');
+      pattern = pattern.replace(/([?=,\/])/g, '\\$1').replace(/:([\w\d]+)/g, '([^/]*)').replace(/(\\\?)/g, '(?:\\?(.*))?');
+      console.log("pattern: ", pattern);
       rooter.routes[expr] = {
         name: expr,
         paramNames: expr.match(/:([\w\d]+)/g),
@@ -2216,7 +2217,6 @@ var requirejs, require, define;
       while (match = search.exec(query)) {
         queryParams[decode(match[1])] = decode(match[2]);
       }
-      console.log(queryParams);
       return queryParams;
     };
     dermis = {
@@ -2231,7 +2231,6 @@ var requirejs, require, define;
         if (service == null) service = "routes/" + base;
         if (view == null) view = "templates/" + base;
         setup = function(routeArguments, queryString) {
-          console.log("calling route " + base);
           return require([service, view], function(srv, tmpl) {
             if (typeof srv === 'function') {
               return srv(routeArguments, tmpl, parseQueryString(queryString));

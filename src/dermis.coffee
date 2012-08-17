@@ -13,7 +13,6 @@ define "dermis", (jade, View) ->
       decodeURIComponent s.replace(pl, " ")
 
     queryParams[decode(match[1])] = decode(match[2]) while match = search.exec(query)
-    console.log queryParams
     return queryParams
 
   dermis =
@@ -24,7 +23,6 @@ define "dermis", (jade, View) ->
       service ?= "routes/#{base}"
       view ?= "templates/#{base}"
       setup = (routeArguments, queryString) ->
-        console.log "calling route #{base}"
         require [service, view], (srv,tmpl) ->
           if typeof srv is 'function'
             srv routeArguments, tmpl, parseQueryString queryString
